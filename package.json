@@ -1,0 +1,23 @@
+{
+  "name": "videox",
+  "version": "0.0.4",
+  "description": "Download HTML5 videos from a website page using Media Source Extensions (MSE).",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test node example.js",
+    "start": "node example.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derekchuank/videox.git"
+  },
+  "author": "Derek Chuank",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/derekchuank/videox/issues"
+  },
+  "homepage": "https://github.com/derekchuank/videox#readme",
+  "dependencies": {
+    "puppeteer-core": "^5.3.1"
+  }
+}

@@ -1,0 +1,9 @@
+*.swp
+
+node_modules/
+
+.vscode/
+
+download/
+
+*.mp4

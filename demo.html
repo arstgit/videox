@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+</head>
+
+<body>
+    <div>
+        <video controls></video>
+    </div>
+    <div>
+        <input id="fileItem" type="file" multiple>
+    </div>
+
+    <script>
+        document.querySelector("#fileItem").onchange = upload;
+
+        let video = document.querySelector('video');
+
+        function upload() {
+            let files = document.querySelector('#fileItem').files;
+
+            let mediaSource
+            if ('MediaSource' in window) {
+                mediaSource = new MediaSource;
+
+                video.src = URL.createObjectURL(mediaSource);
+            } else {
+                console.error('unsupport MediaSource');
+            }
+
+            for (let i = 0; i < files.length; i++) {
+                const mimeCodec = files[i].type
+
+                const freader = new FileReader()
+                freader.readAsArrayBuffer(files[i])
+
+                freader.addEventListener("loadend", () => {
+                    if (freader.readyState !== 2) {
+                        console.log("wrond readState")
+                        return;
+                    }
+
+                    feedSource(mediaSource, freader.result, mimeCodec, i, files.length);
+                })
+            }
+
+        }
+
+        function feedSource(ms, buf, mimeCodec, i, totalLen) {
+            if (!MediaSource.isTypeSupported(mimeCodec)) {
+                console.error('unsupport mimeCodec: ' + mimeCodec)
+            }
+
+            let sourceBuffer = ms.addSourceBuffer(mimeCodec);
+
+            sourceBuffer.addEventListener('updateend', function () {
+                if (i === totalLen - 1) {
+                    ms.endOfStream();
+                }
+            });
+            sourceBuffer.appendBuffer(buf);
+        };
+    </script>
+</body>
+
+</html>
